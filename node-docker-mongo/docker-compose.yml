@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  node:
+    image: node:8.11
+    container_name: "node-react-boilerplate"
+    working_dir: /node-react-boilerplate
+    command:
+      npm install 
+      npm start
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../node-react-boilerplate:/node-react-boilerplate
+    environment:
+      PORT: 3000
+    links:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    
