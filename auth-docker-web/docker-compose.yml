@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - /var/www/auth-web:/var/www/auth-web
+      - ./site.conf:/etc/nginx/conf.d/default.conf
+
+    links:
+      - php
+  php:
+    image: php:7-fpm
+    volumes:
+      - /var/www/auth-web:/var/www/auth-web

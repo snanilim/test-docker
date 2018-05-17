@@ -1,0 +1,47 @@
+version: '2'
+
+services:
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    # restart: always
+    environment: 
+      MYSQL_DATABASE: authApi
+      MYSQL_USER: user
+      MYSQL_PASSWORD: admin@123
+      MYSQL_ROOT_PASSWORD: admin@123
+
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - /var/www/auth-api:/var/www/auth-api
+      - ./site.conf:/etc/nginx/conf.d/default.conf
+      
+
+    links:
+      - php
+
+
+
+  php:
+    build: ./
+    volumes:
+      - /var/www/auth-api:/var/www/auth-api
+    environment:
+      DATABASE_CONNECTION: mysql
+      DATABASE_HOST: 127.0.0.1
+      DATABASE_HOST: 3307
+      DATABASE_NAME: authApi
+      DATABASE_USER: root
+      DATABASE_PASSWORD: admin@123
+    links:
+      - mysql
+
+
+
+
+
